@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.camera.view.PreviewView
+            android:id="@+id/viewFinder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/zoomTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/zoomSliderSeekBar"
+            app:layout_constraintEnd_toEndOf="@+id/zoomSliderSeekBar"
+            app:layout_constraintStart_toStartOf="@+id/zoomSliderSeekBar"
+            tools:text="Zoom Level" />
+
+        <ImageView
+            android:id="@+id/boundingBox"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+         <Button
+            android:id="@+id/takePictureButton"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginRight="52dp"
+            android:background="@drawable/selector_capture"
+            android:elevation="2dp"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ToggleButton
+            android:id="@+id/switchCameraButton"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:background="@drawable/selector_camera"
+            android:textOff=""
+            android:textOn=""
+            app:layout_constraintBottom_toTopOf="@+id/takePictureButton"
+            app:layout_constraintEnd_toEndOf="@+id/takePictureButton"
+            app:layout_constraintStart_toStartOf="@+id/takePictureButton"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <SeekBar
+            android:id="@+id/zoomSliderSeekBar"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:max="4"
+            android:progress="0"
+            android:progressTint="#FFFFFF"
+            android:thumb="@drawable/shape_seekbar_thumb"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>
