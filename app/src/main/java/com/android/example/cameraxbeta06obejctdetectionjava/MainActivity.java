@@ -22,6 +22,7 @@ import android.graphics.RectF;
 import android.media.MediaScannerConnection;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -82,6 +83,10 @@ public class MainActivity extends AppCompatActivity {
         mSwitchCameraButton = findViewById(R.id.switchCameraButton);
         mZoomTextView = findViewById(R.id.zoomTextView);
 
+        //initiate zoom level otherwise is not in the foreground -> bug?
+        mZoomTextView.setText(mZoomState + "x");
+        mZoomTextView.setVisibility(View.INVISIBLE);
+
         if (allPermissionsGranted()) {
             startCamera(); //start camera if permission has been granted by user
         } else {
@@ -93,6 +98,24 @@ public class MainActivity extends AppCompatActivity {
         mSwitchCameraButton.setOnClickListener(view -> switchCamera());
 
     }
+
+    //save value if screen orientation change and activity restarts
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString("photoPath", mPhotoPath);
+        outState.putInt("cameraState", mSwitchCameraState);
+        outState.putFloat("zoomState", mZoomState);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        mPhotoPath = savedInstanceState.getString("photoPath");
+        mSwitchCameraState = savedInstanceState.getInt("cameraState");
+        mZoomState = savedInstanceState.getFloat("zoomState");
+        super.onRestoreInstanceState(savedInstanceState);
+    }
+
     //start camera
     private void startCamera() {
         ListenableFuture cameraProviderFuture = ProcessCameraProvider.getInstance(this);
@@ -227,12 +250,11 @@ public class MainActivity extends AppCompatActivity {
                 mZoomState = i/ Float.parseFloat("4");
                 cameraControl.setLinearZoom(mZoomState);
                 mZoomTextView.setText(mZoomState * 8 + "x");
-                mZoomTextView.setVisibility(View.VISIBLE);
             }
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
+                mZoomTextView.setVisibility(View.VISIBLE);
             }
-            @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 mZoomTextView.postDelayed(() -> mZoomTextView.setVisibility(View.INVISIBLE), 3000);
             }
